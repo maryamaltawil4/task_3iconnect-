@@ -1,14 +1,19 @@
-﻿namespace task3_iconnect.user.model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace task3_iconnect.user.model
 {
-    public class users
+    public class users: BaseModel
     {
-        public int id { get; set; }
+   
     
         public string first_name { get; set; }
 
         public string last_name { get; set; }
 
         public string email { get; set; }
+        public ICollection<Post> ? Posts { get; set; }
+
+
 
     }
 }

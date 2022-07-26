@@ -1,6 +1,17 @@
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using task3_iconnect;
+using task3_iconnect.Models;
+using task3_iconnect.repo;
+using task3_iconnect.user.model;
+
+var builder = WebApplication.CreateBuilder(args);
+//UserContex
+builder.Services.AddDbContext<UserContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("task3_iconnectContext")));
+
+
+builder.Services.ConfigureServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
