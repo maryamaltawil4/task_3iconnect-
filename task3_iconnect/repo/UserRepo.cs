@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using task3_iconnect.Models;
 using task3_iconnect.user.model;
 namespace task3_iconnect.repo
@@ -17,9 +18,15 @@ namespace task3_iconnect.repo
         {
 
         }
+        public new List<users>? getAll()
 
-      
-   }
+        {
+            return _context.Users.Include(c=> c.Posts).ToList();//table Users
+        }
+
+
+
+    }
 }
 
 

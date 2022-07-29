@@ -16,6 +16,8 @@ namespace task3_iconnect
 
             services.AddScoped<IUserInterface, UserRepo>();
             services.AddScoped<IpostsRepo, PostRepo>();
+            services.AddScoped<Filters>();
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace task3_iconnect.Controllers
         }
 
         [HttpGet]
-
+        [ServiceFilter(typeof(Filters))]
         public ActionResult<List<Post>> GetAll()
         {
             return _postRepo.GetAll();
