@@ -8,12 +8,12 @@ namespace task3_iconnect.user.model
     {
        
 
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [ForeignKey("users")]
         public int IdUser { get; set; }
 
-        public users ? user { get; set; }
+        public users? user { get; set; }
 
     }
 }

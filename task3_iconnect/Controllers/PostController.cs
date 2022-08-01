@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using task3_iconnect.repo;
 using task3_iconnect.user.model;
+using task3_iconnect.ViewModels;
+using AutoMapper;
 
 namespace task3_iconnect.Controllers
 {
@@ -10,34 +12,40 @@ namespace task3_iconnect.Controllers
     {
 
         private readonly IpostsRepo _postRepo;
+        private readonly IMapper _mapper;
 
-        public PostController(IpostsRepo postRepo)
+
+        public PostController(IpostsRepo postRepo, IMapper iMapper)
         {
             _postRepo = postRepo;
+            _mapper = iMapper;
         }
 
         [HttpGet]
-        [ServiceFilter(typeof(Filters))]
-        public ActionResult<List<Post>> GetAll()
+        //[ServiceFilter(typeof(Filters))]
+        public async Task <List<PostView>> GetAll()
         {
-            return _postRepo.GetAll();
+            var posts = await _postRepo.GetAll();
+            return  _mapper.Map<List<PostView>>(posts);
+
 
 
         }
         [HttpGet("{id}")]
-        public ActionResult<Post> Get(int id)
+        public async Task <ActionResult <PostView>>Get(int id)
         {
 
             var post = _postRepo.Get(id);
+            var post1 = _mapper.Map<PostView>(post);
             if (post == null)
 
-                return NotFound();
-            return post;
+                return  NotFound();
+            return  post1;
 
         }
         [HttpDelete("{id}")]
 
-        public ActionResult Deletet(int id)
+        public async Task <ActionResult> Deletet(int id)
         {
 
             var user1 = _postRepo.Get(id);
@@ -49,26 +57,20 @@ namespace task3_iconnect.Controllers
 
         }
         [HttpPost]
-        public ActionResult Create([FromBody] Post post)
+        public async Task Create([FromBody] PostView PostV)
         {
-            try
-            {
-                _postRepo.Add(post);
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+            var post1 = _mapper.Map<Post>(PostV);
+            var post_ = _postRepo.Get(post1.Id);
+            await _postRepo.Add(await post_);
 
 
         }
         [HttpPut]
-        public ActionResult Update(Post post)
+        public async Task Update(PostView postV)
         {
-           
-            _postRepo.Update(post);
-            return Ok();
+
+            await _postRepo.Update(_mapper.Map<Post>(postV));
+
 
 
         }

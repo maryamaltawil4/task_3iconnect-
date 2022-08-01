@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using task3_iconnect.repo;
 using task3_iconnect.user.model;
+using task3_iconnect.ViewModels;
+using AutoMapper;
+
 
 namespace task3_iconnect.Controllers
 {
@@ -11,34 +15,39 @@ namespace task3_iconnect.Controllers
 
     {
         private  IUserInterface _userRepo;
+        private readonly IMapper _mapper;
 
-        public UserConroller(IUserInterface userRepo)
+
+        public UserConroller(IUserInterface userRepo, IMapper iMapper)
         {
             _userRepo = userRepo;
+            _mapper = iMapper;
         }
 
         [HttpGet]
-        [ServiceFilter(typeof(Filters))]
-        public ActionResult<List<users>> GetAll()
+        //[ServiceFilter(typeof(Filters))]
+        public  async Task <List<UsersView>> GetAll()
         {
-            return Ok (_userRepo.GetAll());
+
+            var temp= await _userRepo.GetAll();
+            return _mapper.Map<List<UsersView>>(temp);
 
 
         }
         [HttpGet("{id}")]
-        public ActionResult<users> Get(int id)
+        public async Task <ActionResult<UsersView>> Get(int id)
         {
 
             var user = _userRepo.Get(id);
             if (user == null)
 
                 return NotFound();
-            return user;
+            return _mapper.Map<UsersView>(user);
 
         }
         [HttpDelete("{id}")]
 
-        public ActionResult Deletet(int id)
+        public async Task< ActionResult >Deletet(int id)
         {
 
             var user1 = _userRepo.Get(id);
@@ -50,26 +59,19 @@ namespace task3_iconnect.Controllers
 
         }
         [HttpPost]
-        public ActionResult Create([FromBody] users user)
+        public async Task Create([FromBody] UsersView user)
         {
-            try
-            {
-                _userRepo.Add(user);
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+            var UserV = _mapper.Map<users>(user);
+            var user1 = _userRepo.Get(UserV.Id);
+            await _userRepo.Add(await user1);
 
 
         }
         [HttpPut]
-        public ActionResult Update(users user)
+        public async Task Update(UsersView user)
         {
-          
-            _userRepo.Update(user);
-            return Ok();
+
+            await _userRepo.Update(_mapper.Map<users>(user));
 
 
         }

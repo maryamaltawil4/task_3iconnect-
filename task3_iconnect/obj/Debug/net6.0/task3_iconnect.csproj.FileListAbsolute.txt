@@ -260,3 +260,6 @@ C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\runtim
 C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\AutoMapper.Collection.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

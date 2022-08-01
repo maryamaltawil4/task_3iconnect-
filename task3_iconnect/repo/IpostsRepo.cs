@@ -18,7 +18,7 @@ namespace task3_iconnect.repo
            
 
         }
-        public new List<Post>? getAll()
+        public new async Task < List<Post>> ? getAll()
         {
             return _context.Posts.Include(c => c.user).ToList();
         }

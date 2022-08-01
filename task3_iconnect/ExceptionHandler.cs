@@ -1,43 +1,40 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
+using task3_iconnect.user.model;
 
 namespace task3_iconnect
 {
-    public class ExceptionHandler
+    public class ExceptionMiddleware
     {
-        
-            private readonly RequestDelegate _next;
+        private readonly RequestDelegate _next;
 
-            public ExceptionHandler(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next)
+        {
+
+            _next = next;
+        }
+        public async Task InvokeAsync(HttpContext httpContext)
+        {
+            try
             {
-                _next = next;
+                await _next(httpContext);
             }
-
-            public async Task Invoke(HttpContext context)
+            catch (Exception ex)
             {
-                try
-                {
-                    await _next.Invoke(context);
-                }
-                catch (Exception ex)
-                {
-                    await HandleExceptionMessageAsync(context, ex).ConfigureAwait(false);
-                }
-            }
 
-            private static Task HandleExceptionMessageAsync(HttpContext context, Exception exception)
-            {
-                context.Response.ContentType = "application/json";
-                int statusCode = (int)HttpStatusCode.InternalServerError;
-                var result = JsonConvert.SerializeObject(new
-                {
-                    StatusCode = statusCode,
-                    ErrorMessage = "Internal server error"
-                });
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = statusCode;
-                return context.Response.WriteAsync(result);
+                await HandleExceptionAsync(httpContext, ex);
             }
         }
+        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            await context.Response.WriteAsync(new ErrorDetails()
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = "Internal Server Error from middleware."
+            }.ToString());
+        }
     }
+}
 

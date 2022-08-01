@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using task3_iconnect.Models;
 using task3_iconnect.user.model;
 namespace task3_iconnect.repo
 {
     public interface IGenRepo <T> where T : class 
     {
-        public List<T>? GetAll();
-        public T Get(int id);
+        public Task<List<T>> GetAll();
+        public Task<T> Get(int id);
         public void delete(int id);
-        public T Add(T obj);
-        public T Update(T obj);
+        public Task<T> Add(T obj);
+        public Task<T> Update(T obj);
     }
 
     public class GenRepo<T> : IGenRepo<T> where T : class ,IBaseModel
@@ -23,34 +24,36 @@ namespace task3_iconnect.repo
         }
 
 
-        public List<T> ? GetAll()
-        { 
-            return _context.Set<T>().ToList();
-        }
-        public T Get(int id)
+        public async Task <List<T> >? GetAll()
         {
-            return  _context.Set<T>().Find(id);
+          
+                var m =await _context.Set<T>().ToListAsync();
+            return m;
         }
-        public void delete(int id)
+        public async Task< T> Get(int id)
         {
-           
-            var _temp = _context.Set<T>().FirstOrDefault(c => c.Id == id);
-            _context.Set<T>().Remove(_temp);
-            _context.SaveChanges();
+            // return  _context.Set<T>().Find(id);
+            return _context.Find<T>(id);
+
         }
-        public T Add(T Object)
+        public async void delete(int id)
         {
-            _context.Set<T>().Add(Object);
-            _context.SaveChanges();
+            _context.Remove<Task<T>>(Get(id));
+            await _context.SaveChangesAsync();
+        }
+        public async Task<T>Add(T Object)
+        {
+            await _context.Set<T>().AddAsync(Object);
+            await _context.SaveChangesAsync();
             return Object;
         }
 
 
-        public T Update(T Object)
+        public async Task <T> Update(T Object)
         {
 
-            _context.Set<T>().Update(Object);
-            _context.SaveChanges();
+             _context.Set<T>().Update(Object);
+            await _context.SaveChangesAsync();
            
             return Object;
 

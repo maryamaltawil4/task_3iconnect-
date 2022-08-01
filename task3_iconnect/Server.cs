@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using task3_iconnect.Models;
@@ -12,12 +13,17 @@ namespace task3_iconnect
         {
             services.AddMvc();
             services.AddSwaggerGen();
-     
-
+          
+           
             services.AddScoped<IUserInterface, UserRepo>();
             services.AddScoped<IpostsRepo, PostRepo>();
             services.AddScoped<Filters>();
 
+
+        }
+        public static void ConfigureCustomExceptionMiddleware(this WebApplication app)
+        {
+            app.UseMiddleware<ExceptionMiddleware>();
         }
     }
 }
