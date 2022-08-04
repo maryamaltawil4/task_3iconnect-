@@ -263,3 +263,9 @@ C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\runtim
 C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\AutoMapper.Collection.dll
 C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\USER\source\repos\task3_iconnect\task3_iconnect\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll

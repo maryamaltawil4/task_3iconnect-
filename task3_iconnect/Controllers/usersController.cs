@@ -29,7 +29,7 @@ namespace task3_iconnect.Controllers
         public  async Task <List<UsersView>> GetAll()
         {
 
-            var temp= await _userRepo.GetAll();
+            var temp= await _userRepo.GetAll<users>();
             return _mapper.Map<List<UsersView>>(temp);
 
 
@@ -38,7 +38,7 @@ namespace task3_iconnect.Controllers
         public async Task <ActionResult<UsersView>> Get(int id)
         {
 
-            var user = _userRepo.Get(id);
+            var user = _userRepo.Get<users>(id);
             if (user == null)
 
                 return NotFound();
@@ -50,7 +50,7 @@ namespace task3_iconnect.Controllers
         public async Task< ActionResult >Deletet(int id)
         {
 
-            var user1 = _userRepo.Get(id);
+            var user1 = _userRepo.Get<users>(id);
             if (user1 == null)
 
                 return NotFound();
@@ -62,8 +62,8 @@ namespace task3_iconnect.Controllers
         public async Task Create([FromBody] UsersView user)
         {
             var UserV = _mapper.Map<users>(user);
-            var user1 = _userRepo.Get(UserV.Id);
-            await _userRepo.Add(await user1);
+            var user1 = _userRepo.Get<users>(UserV.Id);
+            await _userRepo.Add(user1);
 
 
         }

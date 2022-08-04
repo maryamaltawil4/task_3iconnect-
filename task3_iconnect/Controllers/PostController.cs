@@ -3,11 +3,13 @@ using task3_iconnect.repo;
 using task3_iconnect.user.model;
 using task3_iconnect.ViewModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace task3_iconnect.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PostController : ControllerBase
     {
 
@@ -25,7 +27,7 @@ namespace task3_iconnect.Controllers
         //[ServiceFilter(typeof(Filters))]
         public async Task <List<PostView>> GetAll()
         {
-            var posts = await _postRepo.GetAll();
+            var posts = await _postRepo.GetAll<Post>();
             return  _mapper.Map<List<PostView>>(posts);
 
 
@@ -35,7 +37,7 @@ namespace task3_iconnect.Controllers
         public async Task <ActionResult <PostView>>Get(int id)
         {
 
-            var post = _postRepo.Get(id);
+            var post = _postRepo.Get<Post>(id);
             var post1 = _mapper.Map<PostView>(post);
             if (post == null)
 
@@ -48,7 +50,7 @@ namespace task3_iconnect.Controllers
         public async Task <ActionResult> Deletet(int id)
         {
 
-            var user1 = _postRepo.Get(id);
+            var user1 = _postRepo.Get<Post>(id);
             if (user1 == null)
 
                 return NotFound();
@@ -60,8 +62,8 @@ namespace task3_iconnect.Controllers
         public async Task Create([FromBody] PostView PostV)
         {
             var post1 = _mapper.Map<Post>(PostV);
-            var post_ = _postRepo.Get(post1.Id);
-            await _postRepo.Add(await post_);
+            var post_ = _postRepo.Get<Post>(post1.Id);
+            await _postRepo.Add( post_);
 
 
         }

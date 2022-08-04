@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using task3_iconnect.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using task3_iconnect.ViewModels;
 
 namespace task3_iconnect.repo
 {
@@ -13,15 +16,16 @@ namespace task3_iconnect.repo
     public class PostRepo : GenRepo<Post> , IpostsRepo
 
     {
-        public PostRepo(UserContext context) : base(context)
+        public IMapper _mapper;
+        public PostRepo(UserContext context, IMapper iMapper) : base(context, iMapper)
         {
-           
 
+            _mapper = iMapper;
         }
-        public new async Task < List<Post>> ? getAll()
+       /* public new async Task < List<PostView>> ? getAll()
         {
-            return _context.Posts.Include(c => c.user).ToList();
-        }
+            return await _context.Posts.ProjectTo<PostView>(_mapper.ConfigurationProvider).ToListAsync();
+        }*/
 
     }
 }

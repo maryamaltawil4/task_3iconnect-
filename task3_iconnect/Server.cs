@@ -21,9 +21,9 @@ namespace task3_iconnect
 
 
         }
-        public static void ConfigureCustomExceptionMiddleware(this WebApplication app)
+       /* public static void ConfigureCustomExceptionMiddleware(this WebApplication app)
         {
             app.UseMiddleware<ExceptionMiddleware>();
-        }
+        }*/
     }
 }

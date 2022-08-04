@@ -10,7 +10,8 @@ namespace task3_iconnect.ViewModels
         {
             CreateMap<users, UsersView>().ReverseMap();
             CreateMap<Post, PostView>().ReverseMap();
-
+            CreateMap<Post, Post>().ReverseMap();
+            CreateMap<users, users>().ReverseMap();
         }
 
     }
