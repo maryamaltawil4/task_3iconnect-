@@ -44,7 +44,9 @@ namespace task3_iconnect.Controllers
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("userID", user.Id.ToString()),
+
+                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
                 foreach (var userRole in userRoles)
@@ -78,10 +80,22 @@ namespace task3_iconnect.Controllers
                 UserName = model.Username
             };
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            var Temp = await _roleManager.RoleExistsAsync("Admin");
+            if (!Temp)
+            {
+                var role = new UserRoles();
+                role.Name = "Admin";
+                await _roleManager.CreateAsync(role);
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            }
+            await _userManager.AddToRoleAsync(user, "Admin");
+
+
+            if (!result.Succeeded)
+               return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+
+           return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+
         }
 
 

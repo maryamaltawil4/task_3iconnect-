@@ -4,12 +4,14 @@ using task3_iconnect.user.model;
 using task3_iconnect.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace task3_iconnect.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
+    [Authorize(Roles = "Admin")]
     public class PostController : ControllerBase
     {
 
@@ -62,8 +64,13 @@ namespace task3_iconnect.Controllers
         public async Task Create([FromBody] PostView PostV)
         {
             var post1 = _mapper.Map<Post>(PostV);
-            var post_ = _postRepo.Get<Post>(post1.Id);
-            await _postRepo.Add( post_);
+            // var post_ = _postRepo.Get<Post>(post1.Id);
+            // await _postRepo.Add(post1);
+            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userId = claimsIdentity.FindFirst("userID")?.Value;
+
+            post1.IdUser = Convert.ToInt32(userId);
+            await _postRepo.Add( post1);
 
 
         }

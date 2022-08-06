@@ -5,12 +5,14 @@ using task3_iconnect.repo;
 using task3_iconnect.user.model;
 using task3_iconnect.ViewModels;
 using AutoMapper;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace task3_iconnect.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class UserConroller : ControllerBase
 
     {
