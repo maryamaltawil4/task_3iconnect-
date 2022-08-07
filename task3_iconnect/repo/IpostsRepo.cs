@@ -10,7 +10,7 @@ namespace task3_iconnect.repo
 {
     public interface IpostsRepo : IGenRepo<Post>
     {
-     
+     public List<Post> searchPosts(int page , int size , string search);
 
     }
     public class PostRepo : GenRepo<Post> , IpostsRepo
@@ -22,10 +22,21 @@ namespace task3_iconnect.repo
 
             _mapper = iMapper;
         }
-       /* public new async Task < List<PostView>> ? getAll()
+
+        /* public new async Task < List<PostView>> ? getAll()
+         {
+             return await _context.Posts.ProjectTo<PostView>(_mapper.ConfigurationProvider).ToListAsync();
+         }*/
+        public List<Post> searchPosts(int pageNo, int pageSize, String search)
         {
-            return await _context.Posts.ProjectTo<PostView>(_mapper.ConfigurationProvider).ToListAsync();
-        }*/
+            var pagedData = _context.Posts
+             .Where(s => s.Title.Contains(search))
+             .Skip((pageNo - 1) * pageSize)
+             .Take(pageNo)
+             .ToList();
+            return pagedData;
+
+        }
 
     }
 }

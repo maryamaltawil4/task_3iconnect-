@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using task3_iconnect.Models;
 using task3_iconnect.user.model;
 using task3_iconnect.ViewModels;
@@ -13,8 +14,8 @@ namespace task3_iconnect.repo
         public Task<List<TVM>> GetAll<TVM>();
         public TVM? Get<TVM>(int id) where TVM : class, IBaseModel;
         public void delete(int id);
-        public Task<T> Add(T obj);
-        public Task<T> Update(T obj);
+        public Task<T> Add(T obj, int CreatById);
+        public Task<T> Update(T obj, int CreatById);
     }
 
     public class GenRepo<T> : IGenRepo<T> where T : class ,IBaseModel
@@ -55,20 +56,30 @@ namespace task3_iconnect.repo
 
         }
 
-        public async Task<T>Add(T Object)
+        public async Task<T>Add(T Object,int CreatById)
         {
+            Type type = typeof(T);
+            var prop = type.GetProperties().FirstOrDefault(X => X.Name == "CreatDate");
+            var temp = DateTime.Now;
+            prop.SetValue(Object, temp);
+            var prop1 = type.GetProperties().FirstOrDefault(X => X.Name == "CreatBy");
+            prop1.SetValue(Object, CreatById);
             await _context.Set<T>().AddAsync(Object);
             await _context.SaveChangesAsync();
             return Object;
         }
 
 
-        public async Task <T> Update(T Object)
+        public async Task <T> Update(T Object, int CreatById)
         {
-
-             _context.Set<T>().Update(Object);
+            Type type = typeof(T);
+            var prop = type.GetProperties().FirstOrDefault(X =>X.Name== "CreatDate");
+            var temp= DateTime .Now;
+            prop.SetValue(Object,temp);
+            var prop1 = type.GetProperties().FirstOrDefault(X => X.Name == "CreatBy");
+            prop1.SetValue(Object, CreatById);
+            _context.Set<T>().Update(Object);
             await _context.SaveChangesAsync();
-           
             return Object;
 
 

@@ -12,7 +12,10 @@ namespace task3_iconnect.user.model
 
         [ForeignKey("users")]
         public int IdUser { get; set; }
-
+        public DateTime CreatDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public int CreatBy { get; set; }
+        public int UpdateBy { get; set; }
         public users? user { get; set; }
 
     }

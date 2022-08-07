@@ -8,10 +8,10 @@ using System.Security.Claims;
 
 namespace task3_iconnect.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    //[Authorize]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
+    //[Authorize(Roles = "Admin")]
     public class PostController : ControllerBase
     {
 
@@ -31,10 +31,14 @@ namespace task3_iconnect.Controllers
         {
             var posts = await _postRepo.GetAll<Post>();
             return  _mapper.Map<List<PostView>>(posts);
-
-
-
         }
+       [HttpGet]
+        public List<PostView> GetBySearch(int PageN, int pageSize, string phrase)
+        {
+            var response = _postRepo.searchPosts(PageN, pageSize, phrase);
+            return _mapper.Map<List<Post>, List<PostView>>(response);
+        }
+
         [HttpGet("{id}")]
         public async Task <ActionResult <PostView>>Get(int id)
         {
@@ -70,15 +74,19 @@ namespace task3_iconnect.Controllers
             var userId = claimsIdentity.FindFirst("userID")?.Value;
 
             post1.IdUser = Convert.ToInt32(userId);
-            await _postRepo.Add( post1);
+            await _postRepo.Add( post1, post1.IdUser);
 
 
         }
         [HttpPut]
         public async Task Update(PostView postV)
         {
+            var post1 = _mapper.Map<Post>(postV);
+            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userId = claimsIdentity.FindFirst("userID")?.Value;
 
-            await _postRepo.Update(_mapper.Map<Post>(postV));
+            post1.IdUser = Convert.ToInt32(userId);
+            await _postRepo.Update(_mapper.Map<Post>(postV), post1.IdUser);
 
 
 

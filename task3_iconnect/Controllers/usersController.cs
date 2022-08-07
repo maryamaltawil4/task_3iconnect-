@@ -6,6 +6,7 @@ using task3_iconnect.user.model;
 using task3_iconnect.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace task3_iconnect.Controllers
 {
@@ -64,8 +65,12 @@ namespace task3_iconnect.Controllers
         public async Task Create([FromBody] UsersView user)
         {
             var UserV = _mapper.Map<users>(user);
-            var user1 = _userRepo.Get<users>(UserV.Id);
-            await _userRepo.Add(user1);
+            //var user1 = _userRepo.Get<users>(UserV.Id);
+             var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userId = claimsIdentity.FindFirst("userID")?.Value;
+
+            UserV.Id = Convert.ToInt32(userId);
+            await _userRepo.Add(UserV, UserV.Id);
 
 
         }
@@ -73,10 +78,14 @@ namespace task3_iconnect.Controllers
         public async Task Update(UsersView user)
         {
 
-            await _userRepo.Update(_mapper.Map<users>(user));
+            var UserV = _mapper.Map<users>(user);
+            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userId = claimsIdentity.FindFirst("userID")?.Value;
 
-
+            UserV.Id = Convert.ToInt32(userId);
+            await _userRepo.Update(UserV, UserV.Id);
         }
+        
 
     }
 }

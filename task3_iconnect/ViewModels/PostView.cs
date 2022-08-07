@@ -8,5 +8,7 @@ namespace task3_iconnect.ViewModels
         public string? Title { get; set; }
         public int IdUser { get; set; }
 
+        public DateTime CreatDate { get; set; }
+
     }
 }
