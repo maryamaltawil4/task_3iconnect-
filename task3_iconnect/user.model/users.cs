@@ -10,7 +10,7 @@ namespace task3_iconnect.user.model
 
         public string? last_name { get; set; }
 
-      //  public string? email { get; set; }
+        public string?    Email { get; set; }
         public ICollection<Post> ? Posts { get; set; }
 
 

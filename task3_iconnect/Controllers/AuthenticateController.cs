@@ -81,7 +81,7 @@ namespace task3_iconnect.Controllers
                 UserName = model.Username
             };
             var result = await _userManager.CreateAsync(user, model.Password);
-           /* var Temp = await _roleManager.RoleExistsAsync("Admin");
+           var Temp = await _roleManager.RoleExistsAsync("Admin");
             if (!Temp)
             {
                 var role = new UserRoles();
@@ -89,7 +89,7 @@ namespace task3_iconnect.Controllers
                 await _roleManager.CreateAsync(role);
 
             }
-            await _userManager.AddToRoleAsync(user, "Admin");*/
+            await _userManager.AddToRoleAsync(user, "Admin");
 
 
             if (!result.Succeeded)

@@ -10,8 +10,8 @@ namespace task3_iconnect.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
-    //[Authorize(Roles = "Admin")]
+   // [Authorize]
+   // [Authorize(Roles = "Admin")]
     public class PostController : ControllerBase
     {
 
@@ -86,7 +86,7 @@ namespace task3_iconnect.Controllers
             var userId = claimsIdentity.FindFirst("userID")?.Value;
 
             post1.IdUser = Convert.ToInt32(userId);
-            await _postRepo.Update(_mapper.Map<Post>(postV), post1.IdUser);
+            await _postRepo.update(_mapper.Map<Post>(postV), post1.IdUser);
 
 
 

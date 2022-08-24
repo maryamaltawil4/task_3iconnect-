@@ -14,6 +14,8 @@ namespace task3_iconnect.user.model
         public int IdUser { get; set; }
         public DateTime CreatDate { get; set; }
         public DateTime UpdateDate { get; set; }
+
+        public string? Description { get; set; }
         public int CreatBy { get; set; }
         public int UpdateBy { get; set; }
         public users? user { get; set; }

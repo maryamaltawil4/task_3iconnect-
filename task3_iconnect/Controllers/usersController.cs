@@ -12,7 +12,7 @@ namespace task3_iconnect.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize]
 
     public class UserConroller : ControllerBase
 
@@ -38,28 +38,39 @@ namespace task3_iconnect.Controllers
 
         }
         [HttpGet("{id}")]
-        public async Task <ActionResult<UsersView>> Get(int id)
+       
+        public UsersView Get(int id)
         {
-
-            var user = _userRepo.Get<users>(id);
-            if (user == null)
-
-                return NotFound();
-            return _mapper.Map<UsersView>(user);
-
+            var user = _userRepo.Get<UsersView>(id);
+            return user;
         }
+        /* public async Task <ActionResult<UsersView>> Get(int id)
+         {
+
+             var user = _userRepo.Get<users>(id);
+             if (user == null)
+
+                 return NotFound();
+             return _mapper.Map<UsersView>(user);
+
+         }
+          [HttpDelete("{id}")]
+
+          public async Task< ActionResult >Deletet(int id)
+           {
+
+               var user1 = _userRepo.Get<users>(id);
+               if (user1 == null)
+
+                   return NotFound();
+               _userRepo.delete(id);
+               return Ok();
+
+           }*/
         [HttpDelete("{id}")]
-
-        public async Task< ActionResult >Deletet(int id)
+        public async Task Delete(int id)
         {
-
-            var user1 = _userRepo.Get<users>(id);
-            if (user1 == null)
-
-                return NotFound();
-            _userRepo.delete(id);
-            return Ok();
-
+            await _userRepo.delete(id);
         }
         [HttpPost]
         public async Task Create([FromBody] UsersView user)
@@ -78,12 +89,16 @@ namespace task3_iconnect.Controllers
         public async Task Update(UsersView user)
         {
 
-            var UserV = _mapper.Map<users>(user);
-            var claimsIdentity = this.User.Identity as ClaimsIdentity;
-            var userId = claimsIdentity.FindFirst("userID")?.Value;
+            var userId = User.Claims?.SingleOrDefault(p => p.Type == "UserId")?.Value;
+            await _userRepo.update(_mapper.Map<users>(user), Convert.ToInt32(userId));
 
-            UserV.Id = Convert.ToInt32(userId);
-            await _userRepo.Update(UserV, UserV.Id);
+
+            /* var UserV = _mapper.Map<users>(user);
+             var claimsIdentity = this.User.Identity as ClaimsIdentity;
+             var userId = claimsIdentity.FindFirst("userID")?.Value;
+
+             UserV.Id = Convert.ToInt32(userId);
+             await _userRepo.Update(UserV, UserV.Id);*/
         }
         
 

@@ -169,6 +169,9 @@ namespace task3_iconnect.Migrations
                     b.Property<DateTime>("CreatDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("IdUser")
                         .HasColumnType("int");
 
