@@ -85,21 +85,30 @@ namespace task3_iconnect.Controllers
 
 
         }
+    
         [HttpPut]
-        public async Task Update(UsersView user)
+        public async Task Ubdate(UsersView uservm)
         {
+            var idClaim = User.Claims.FirstOrDefault(x => x.Type.Equals("UserId", StringComparison.InvariantCultureIgnoreCase));
+            var id_u = idClaim?.Value;
 
-            var userId = User.Claims?.SingleOrDefault(p => p.Type == "UserId")?.Value;
-            await _userRepo.update(_mapper.Map<users>(user), Convert.ToInt32(userId));
+            await _userRepo.update(_mapper.Map<users>(uservm), Convert.ToInt32(id_u));
 
-
-            /* var UserV = _mapper.Map<users>(user);
-             var claimsIdentity = this.User.Identity as ClaimsIdentity;
-             var userId = claimsIdentity.FindFirst("userID")?.Value;
-
-             UserV.Id = Convert.ToInt32(userId);
-             await _userRepo.Update(UserV, UserV.Id);*/
         }
+        /* public async Task Update(UsersView user)
+         {
+
+             // await _userRepo.update(_mapper.Map<UsersView, users>(user), user.Id);
+             var userId = User.Claims?.SingleOrDefault(p => p.Type == "UserId")?.Value;
+             await _userRepo.update(_mapper.Map<users>(user), Convert.ToInt32(userId));
+             /* var UserV = _mapper.Map<users>(user);
+              var claimsIdentity = this.User.Identity as ClaimsIdentity;
+              var userId = claimsIdentity.FindFirst("userID")?.Value;
+
+              UserV.Id = Convert.ToInt32(userId);
+              await _userRepo.Update(UserV, UserV.Id);
+    }
+    */
         
 
     }

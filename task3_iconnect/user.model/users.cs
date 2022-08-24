@@ -11,6 +11,9 @@ namespace task3_iconnect.user.model
         public string? last_name { get; set; }
 
         public string?    Email { get; set; }
+
+        public int? Age { get; set; }
+        public DateTime? dateOfBirthday { get; set; }
         public ICollection<Post> ? Posts { get; set; }
 
 

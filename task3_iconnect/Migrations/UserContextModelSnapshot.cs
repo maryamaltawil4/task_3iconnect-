@@ -205,6 +205,9 @@ namespace task3_iconnect.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -248,6 +251,9 @@ namespace task3_iconnect.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime?>("dateOfBirthday")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("first_name")
                         .HasColumnType("nvarchar(max)");

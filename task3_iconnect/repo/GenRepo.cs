@@ -76,13 +76,21 @@ namespace task3_iconnect.repo
         }
 
 
+      
         public async Task<T> update(T entity, int id)
         {
-          
+
+            PropertyInfo time = entity.GetType().GetProperty("UpdateDate");
+            if (time != null)
+            {
+                time.SetValue(entity, DateTime.Now);
+                PropertyInfo person = entity.GetType().GetProperty("UpdateBy");
+                person.SetValue(entity, id);
+            }
             _context.Set<T>().Update(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return entity;
         }
-    }
 
+    }
 }
